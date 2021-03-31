@@ -1,6 +1,7 @@
 from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd
 import time
 
 ###########################################
@@ -26,7 +27,11 @@ def scrape_news():
     news_title = articles.find("div", class_ = "content_title").text
     news_body = articles.find("div", class_ = "article_teaser_body").text
 
+    # Close remote browser
+    browser.quit()
+
     return news_title, news_body
+
 
 
 #####################################
@@ -49,7 +54,11 @@ def scrape_feature(browser):
     image_path = soup.find("img", class_ = "headerimage")["src"]
     featured_img_url = "https://spaceimages-mars.com/"+image_path
 
+    # Close remote browser
+    browser.quit()
+
     return featured_img_url
+
 
 
 ###################################
@@ -80,7 +89,12 @@ def scrape_facts(browser):
     # Parse to an html string
     fact_table = facts_df.to_html()
 
+    # Close remote browser
+    browser.quit()
+        
     return fact_table
+
+
 
 
 ###############################################
@@ -126,7 +140,7 @@ def scrape_hemi(browser):
         # Append to list of dictionaries
         hemisphere_image_urls.append({"title":img_title, "img_url":url})
 
+    # Close remote browser
+    browser.quit()
+ 
     return hemisphere_image_urls
-
-
-#print or return?
