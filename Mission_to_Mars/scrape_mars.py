@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-
+#################################
+#### This will pass a ???? need help ####
+#################################
 # def scrape_news():
 #     # Define the path
 #     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -45,6 +47,10 @@ import time
 
 #     return collection
 
+#################################
+#### This will pass a string ####
+#################################
+
 def scrape_feature():    
     # Define executable path and initialize the browser
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -67,6 +73,9 @@ def scrape_feature():
     browser.quit()
 
 
+#################################
+#### This will pass html table ####
+#################################
 def scrape_facts():  
     # Scrape the table using pandas
     url3 = "https://galaxyfacts-mars.com/"
@@ -92,7 +101,9 @@ def scrape_facts():
 
     browser.quit()
 
-    
+###############################################
+#### This will pass a list of dictionaries ####
+###############################################    
 def scrape_hemi():  
     # Initialize the browser
     url5 = "https://marshemispheres.com/"
