@@ -4,13 +4,37 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
 
-###########################################
-#### This will pass 2 variable strings ####
-###########################################
-def scrape_news():
+
+############################################
+#### Collect all data into a dictionary ####
+############################################
+def scrape_all():
     # Define the path
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
+
+    # Store scraping functions in a dictionary
+    news_title, news_body = scrape_news(browser)
+    
+    mars_dict = {
+        "news_title": news_title,
+        "news_body": news_body,
+        "featured_img_url": scrape_feature(browser),
+        "facts_table": scrape_facts(browser),
+        "hemispheres": scrape_hemi(browser)
+    }
+
+    # Close remote browser
+    browser.quit()
+
+    return mars_dict
+
+
+
+###########################################
+#### This will pass 2 variable strings ####
+###########################################
+def scrape_news(browser):
     
     # Initiate the browser
     url1 = 'https://redplanetscience.com/'
@@ -27,9 +51,6 @@ def scrape_news():
     news_title = articles.find("div", class_ = "content_title").text
     news_body = articles.find("div", class_ = "article_teaser_body").text
 
-    # Close remote browser
-    browser.quit()
-
     return news_title, news_body
 
 
@@ -38,9 +59,6 @@ def scrape_news():
 #### This will pass a string url ####
 #####################################
 def scrape_feature(browser):    
-    # Define executable path and initialize the browser
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
 
     # Initialize the browser
     url2 = 'https://spaceimages-mars.com/'
@@ -53,9 +71,6 @@ def scrape_feature(browser):
     # Find the image url
     image_path = soup.find("img", class_ = "headerimage")["src"]
     featured_img_url = "https://spaceimages-mars.com/"+image_path
-
-    # Close remote browser
-    browser.quit()
 
     return featured_img_url
 
@@ -89,9 +104,6 @@ def scrape_facts(browser):
     # Parse to an html string
     fact_table = facts_df.to_html()
 
-    # Close remote browser
-    browser.quit()
-        
     return fact_table
 
 
@@ -140,7 +152,9 @@ def scrape_hemi(browser):
         # Append to list of dictionaries
         hemisphere_image_urls.append({"title":img_title, "img_url":url})
 
+    return hemisphere_image_urls
+
     # Close remote browser
     browser.quit()
- 
-    return hemisphere_image_urls
+
+print(scrape_all())
