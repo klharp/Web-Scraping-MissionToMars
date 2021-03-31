@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Templates 101</title>
+  <title>Kerry Harp: Mission to Mars</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- put own css here -->
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <div class="jumbotron text-center">
       
       <!-- Add Welcome message with name and hobby served from backend -->
-      <h1>Welcome {{ name }}</h1>
+      <h1>Mission to Mars</h1>
       <p>{{ hobby }} sounds like a lot of fun!</p>
 
     </div>
@@ -24,6 +25,49 @@
     <p> Click <a href="bonus">here</a> to visit my bonus page!</p>
 
   </div>
+
+
+<!-- to return a something in a list, essentially create a for loop
+{% for i in list %}
+{{i}}
+{% endfor %} 
+
+put layout code inside the loop 
+
+LISTS
+{% for movie in list %}
+
+<div class="col-lg-4">
+  <div class="card" style="width: 20rem;">
+      <div class="card-body">
+        <h4 class="card-title">{{ movie }}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">Is a top five favorite movie</h6>
+        <p class="card-text">Search <a href="https://www.imdb.com/">IMDB</a> for more info!</p>
+      </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+DICTS
+# create route that renders index.html template
+@app.route("/")
+def index():
+    player_dictionary = {"player_1": "Jessica",
+                         "player_2": "Mark"}
+    return render_template("index.html", dict=player_dictionary)
+
+    <ul style="list-style: none;">
+        <li>{{ dict.player_1 }}</li>
+        <li>{{ dict.player_2 }}</li>
+      </ul>
+    </div>
+
+-->
+
+
 </body>
 
 </html>
+

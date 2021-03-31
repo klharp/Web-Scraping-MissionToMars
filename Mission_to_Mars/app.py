@@ -11,10 +11,10 @@ mongo = PyMongo(app)
 # Or set inline
 # mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_app")
 
-
+# Define routes
 @app.route("/")
 def index():
-    listings = mongo.db.mars.find_one()
+    mars = mongo.db.mars.find_one()
     return render_template("index.html", mars=mars)
 
 

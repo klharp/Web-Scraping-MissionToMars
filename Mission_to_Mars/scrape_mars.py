@@ -3,55 +3,36 @@ from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-#################################
-#### This will pass a ???? need help ####
-#################################
-# def scrape_news():
-#     # Define the path
-#     executable_path = {'executable_path': ChromeDriverManager().install()}
-#     browser = Browser('chrome', **executable_path, headless=False)
+###########################################
+#### This will pass 2 variable strings ####
+###########################################
+def scrape_news():
+    # Define the path
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
     
-#     # Initiate the browser
-#     url1 = 'https://redplanetscience.com/'
-#     browser.visit(url1)
+    # Initiate the browser
+    url1 = 'https://redplanetscience.com/'
+    browser.visit(url1)
 
-#     # Parse into Beautiful Soup object
-#     news_html = browser.html
-#     soup = BeautifulSoup(news_html, "html.parser")
+    # Parse into Beautiful Soup object
+    news_html = browser.html
+    soup = BeautifulSoup(news_html, "html.parser")
 
-#     # Iterate through all cards of the news in the bootstrap code
-#     # Retrieve all elements that contain News Titles and Paragraph Text
-#     articles = soup.find_all("div", class_ = "list_text")
+    # Retrieve latest news elements
+    articles = soup.find("div", class_ = "list_text")
    
-#     # Iterate through each card and retrieve headline and paragraph
-#     for article in articles:
-       
-#      # Use BeautifulSoup's find() method to navigate and retrieve attributes
-#         news_title = article.find("div", class_ = "content_title").text
-#         news_body = article.find("div", class_ = "article_teaser_body").text
-    
-#         print("------------------------------------------")
-#         print(f"Headline:  {news_title}")
-#         print(f"Content:  {news_body}")
-   
-#         # Dictionary to be inserted as a MongoDB document
-#         post = {"Headline": news_title, 
-#             "Content": news_body,
-#            }
-           
-#         collection.insert_one(post)
+    # Use BeautifulSoup's find() method to navigate and retrieve attributes
+    news_title = articles.find("div", class_ = "content_title").text
+    news_body = articles.find("div", class_ = "article_teaser_body").text
+
+    return news_title, news_body
 
 
-#     # Quit the browser
-#     browser.quit()
-
-#     return collection
-
-#################################
-#### This will pass a string ####
-#################################
-
-def scrape_feature():    
+#####################################
+#### This will pass a string url ####
+#####################################
+def scrape_feature(browser):    
     # Define executable path and initialize the browser
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
@@ -70,41 +51,42 @@ def scrape_feature():
 
     return featured_img_url
 
-    browser.quit()
 
-
-#################################
+###################################
 #### This will pass html table ####
-#################################
-def scrape_facts():  
+###################################
+def scrape_facts(browser):  
     # Scrape the table using pandas
     url3 = "https://galaxyfacts-mars.com/"
     
-    tables = pd.read_html(url3) 
+    tables = pd.read_html(url3)
 
     # First Table 
     df1 = tables[0]
-    # Drop the Earth column
-    df1 = df1.drop([2], axis=1)
+
     # Rename headers
-    df1 = df1.rename(columns = {0:'Fact', 1:'Data'})
+    df1 = df1.rename(columns = {0:'Description', 1:'Mars', 2:'Earth'})
+
     # Drop the first row
-    df1[df1.Fact != "Mars - Earth Comparison"]
+    facts_df = df1[df1.Mars != "Mars"]
 
-    # Second Table 
-    df2 = tables[1]
+    # Reset index
+    facts_df = facts_df.set_index(["Description"])
+
     # Rename headers
-    df2 = df2.rename(columns = {0:'Fact', 1:'Data'})
-    facts_df = df1.append(df2, ignore_index=True, sort=False)
+    df1 = df1.rename(columns = {0:'Description', 1:'Mars', 2:'Earth'})
+    df1.head()
 
-    return featured_facts_df
+    # Parse to an html string
+    fact_table = facts_df.to_html()
 
-    browser.quit()
+    return fact_table
+
 
 ###############################################
 #### This will pass a list of dictionaries ####
 ###############################################    
-def scrape_hemi():  
+def scrape_hemi(browser):  
     # Initialize the browser
     url5 = "https://marshemispheres.com/"
     browser.visit(url5)
@@ -147,5 +129,4 @@ def scrape_hemi():
     return hemisphere_image_urls
 
 
-    # Close remote browser
-    browser.quit()
+#print or return?
