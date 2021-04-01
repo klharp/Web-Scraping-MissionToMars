@@ -3,39 +3,18 @@ from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
+import requests
 
 
-############################################
-#### Collect all data into a dictionary ####
-############################################
 def scrape_all():
     # Define the path
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
 
-    # Store scraping functions in a dictionary
-    news_title, news_body = scrape_news(browser)
-    
-    mars_dict = {
-        "news_title": news_title,
-        "news_body": news_body,
-        "featured_img_url": scrape_feature(browser),
-        "facts_table": scrape_facts(browser),
-        "hemispheres": scrape_hemi(browser)
-    }
-
-    # Close remote browser
-    browser.quit()
-
-    return mars_dict
 
 
+#### Current news: this will pass 2 variable strings ####
 
-###########################################
-#### This will pass 2 variable strings ####
-###########################################
-def scrape_news(browser):
-    
     # Initiate the browser
     url1 = 'https://redplanetscience.com/'
     browser.visit(url1)
@@ -51,14 +30,9 @@ def scrape_news(browser):
     news_title = articles.find("div", class_ = "content_title").text
     news_body = articles.find("div", class_ = "article_teaser_body").text
 
-    return news_title, news_body
 
 
-
-#####################################
-#### This will pass a string url ####
-#####################################
-def scrape_feature(browser):    
+#### Image url: this will pass a string url ####
 
     # Initialize the browser
     url2 = 'https://spaceimages-mars.com/'
@@ -72,14 +46,10 @@ def scrape_feature(browser):
     image_path = soup.find("img", class_ = "headerimage")["src"]
     featured_img_url = "https://spaceimages-mars.com/"+image_path
 
-    return featured_img_url
 
 
+#### Facts: this will pass html table ####
 
-###################################
-#### This will pass html table ####
-###################################
-def scrape_facts(browser):  
     # Scrape the table using pandas
     url3 = "https://galaxyfacts-mars.com/"
     
@@ -104,15 +74,10 @@ def scrape_facts(browser):
     # Parse to an html string
     fact_table = facts_df.to_html()
 
-    return fact_table
 
 
-
-
-###############################################
-#### This will pass a list of dictionaries ####
-###############################################    
-def scrape_hemi(browser):  
+#### Hemispheres: This will pass a list of dictionaries ####
+    
     # Initialize the browser
     url5 = "https://marshemispheres.com/"
     browser.visit(url5)
@@ -152,9 +117,21 @@ def scrape_hemi(browser):
         # Append to list of dictionaries
         hemisphere_image_urls.append({"title":img_title, "img_url":url})
 
-    return hemisphere_image_urls
+    #print(hemisphere_image_urls)
 
-    # Close remote browser
-    browser.quit()
 
-print(scrape_all())
+    # Store scraping functions in a dictionary
+    mars_dict = {
+        "id": 1,
+        "news_title": news_title,
+        "news_body": news_body,
+        "featured_img_url": featured_img_url,
+        "facts_table": fact_table,
+        "hemispheres": hemisphere_image_urls
+    }
+
+    return mars_dict
+    
+if __name__== "__main__":
+    print(scrape_all())
+
