@@ -64,15 +64,14 @@ def scrape_all():
     # Drop the first row
     facts_df = df1[df1.Mars != "Mars"]
 
-    # Reset index
-    facts_df = facts_df.set_index(["Description"])
+    # # Reset index
+    # facts_df = facts_df.set_index(["Description"])
 
     # Rename headers
     df1 = df1.rename(columns = {0:'Description', 1:'Mars', 2:'Earth'})
-    df1.head()
 
     # Parse to an html string
-    fact_table = facts_df.to_html()
+    fact_table = facts_df.to_html(header=True, index=False)
 
 
 
@@ -126,7 +125,7 @@ def scrape_all():
         "news_title": news_title,
         "news_body": news_body,
         "featured_img_url": featured_img_url,
-        "facts_table": fact_table,
+        "fact_table": fact_table,
         "hemispheres": hemisphere_image_urls
     }
 

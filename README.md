@@ -3,13 +3,13 @@
 
 Scraped various websites for data related to the Mission to Mars and displayed the information in a single HTML page.
 - - -
-## Scraping
+## Part 1: Scraping
 
 Created a Jupyter Notebook file called `mission_to_mars.ipynb`  to complete scraping and analysis tasks. Initial scraping done using BeautifulSoup, Pandas, and Splinter
 
 ### NASA Mars News
 
-Scraped the [Mars News Site](https://redplanetscience.com/) and collected the latest News Title and Paragraph Text and saved these items to variables. 
+Scraped the [Mars News Site](https://redplanetscience.com/) and collected the latest news headaline and text. Saved these items to variables. 
 
 ### JPL Mars Space Images - Featured Image
 
@@ -30,19 +30,21 @@ Visited the astrogeology site [here](https://marshemispheres.com/) to obtain hig
 
 - - -
 
-## MongoDB and Flask Application
+## Part 2: MongoDB and Flask Application
 
 Used  MongoDB with Flask templating to create a new HTML page that displays all of the information that was scraped from the URLs.
 
-* Started by converting the Jupyter notebook into a Python script called `scrape_mars.py` with a function called `scrape` that will execute all of the scraping code and returns one Python dictionary containing all of the scraped data.
+* Started by converting the Jupyter notebook into a Python script called `scrape_mars.py` with a function called `scrape` that executes all of the scraping code and returns one Python dictionary containing all of the scraped data.
 
-* Created a route called `/scrape` that imports the `scrape_mars.py` script and called the `scrape` function.
+* Created a route called `/scrape` that imports the `scrape_mars.py` script and calls the `scrape` function.
 
   * Stored the return value in Mongo as a Python dictionary.
 
-* Created a root route `/` that will query the Mongo database and pass the mars data into an HTML template..
+* Created a root route `/` that will query the Mongo database and pass the mars data into an HTML template.
 
-* Created a template HTML file called `index.html` that takes the mars data dictionary and displays all of the data in the appropriate HTML elements. 
+* Created a template HTML file called `index.html` that takes from the mars data dictionary and displays all of the data in the appropriate HTML elements. 
+
+* Used a Bootstrap content delivery network for the styling of the template and added some customized css.
 
 ![final_app_part1.png](Images/final_app.png)
 

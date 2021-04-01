@@ -9,14 +9,40 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- put own css here -->
 
-  
+  <style>
+  .jumbotron {
+      background-image: url(https://images-assets.nasa.gov/image/PIA13339/PIA13339~orig.jpg);
+      background-position:center;
+      background-size: 75%;
+      background-color: #000;
+    }
+
+  .btn {
+      background-color: #fff;
+      border-color: #000;
+    }
+
+   .dataframe td  {
+     padding: 5px;
+     font-size: 1em;
+     
+   } 
+   .dataframe th  {
+     padding: 6px;
+     font-size: 1.2em;
+     background-color: #000;
+     color: #fff;
+   } 
+
+  </style>
+
 </head>
 
 <body>
 <div class="container">
 
   <div class="jumbotron text-center">
-    <h1>Mission to Mars</h1>
+    <h1 style="color:#fff;">Mission to Mars</h1>
     <p><a class="btn btn-default btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
   </div>
 
@@ -38,13 +64,13 @@
   <!-- Featured Image -->
   <div class="row">
     <div class="col-md-8">
-      <h2>Featured Image</h2>
+      <h2>Featured Mars Image</h2>
       <img src="{{mars.featured_img_url}}" class="img-responsive" alt="featured image">
     </div>
 
 
   <!-- Facts -->
-    <div class="col-md-4">
+    <div class="col-md-4" id="table">
       <h2>Mars Facts</h2>
       {{ mars.fact_table | safe }}
     </div>
@@ -55,6 +81,7 @@
 
   <!-- Hemispheres -->
   <div class="row" style="margin-top:20px;">
+    <h2 align="middle">Mars Hemispheres</h2>
     <div class="col-md-12">
       {% for hemisphere in mars.hemispheres %}
         <div class="col-md-3">
@@ -68,7 +95,6 @@
         {% endfor %}
     </div>  
   </div>
-
 
 </div>
 </body>
