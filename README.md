@@ -1,8 +1,19 @@
 # Web Scraping Homework - Mission to Mars
 
+## Project Overview
+This project builds a web application to scrape date from various websites related to the Mission to Mars and then displays the information on a web page.
 
-Scraped various websites for data related to the Mission to Mars and displayed the information in a single HTML page.
-- - -
+Languages and libraries used:
+
+* Pandas
+* PyMongo
+* Beautiful Soup
+* HTML
+* CSS
+
+---
+
+
 ## Part 1: Scraping
 
 Created a Jupyter Notebook file called `mission_to_mars.ipynb`  to complete scraping and analysis tasks. Initial scraping done using BeautifulSoup, Pandas, and Splinter
